@@ -31,6 +31,8 @@ public class User implements UserDetails {
     @OneToMany
     private List<Place> rented;
 
+    @ManyToMany
+    private List<Place> planningToRent;
 
     @Enumerated(value = EnumType.STRING)
     private Role role;
@@ -54,6 +56,7 @@ public class User implements UserDetails {
         this.surname = surname;
         this.role = role;
         rented = new ArrayList<>();
+        planningToRent=new ArrayList<>();
     }
 
     public User(String username, String password, String name, String surname) {
@@ -63,12 +66,14 @@ public class User implements UserDetails {
         this.surname = surname;
         this.role = Role.USER;
         rented = new ArrayList<>();
+        planningToRent=new ArrayList<>();
     }
 
     public User(UserDetails userDetails) {
         this.username = userDetails.getUsername();
         this.password = userDetails.getPassword();
         rented = new ArrayList<>();
+        planningToRent=new ArrayList<>();
     }
 
 
@@ -124,5 +129,9 @@ public class User implements UserDetails {
     }
     public void addRented(Place place){
         rented.add(place);
+    }
+    public void addPlanning(Place place){ planningToRent.add(place);}
+    public List<Place> getPlanning(){
+        return planningToRent;
     }
 }

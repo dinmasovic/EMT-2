@@ -71,5 +71,25 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public void planningOn(String username, Long id) {
+        User user=userRepository.findByUsername(username).get();
+        Place place=placeService.findById(id).get();
+        if(place.getRented()){
+            throw new AlreadyRentedException("This place is already rented");
+        }
+        user.addPlanning(place);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void confirmPlanning(String username) {
+        User user=userRepository.findByUsername(username).get();
+        user.getPlanning().forEach(Place::setRented);
+        user.getPlanning().forEach(user::addRented);
+        user.getPlanning().clear();
+        userRepository.save(user);
+    }
+
 
 }

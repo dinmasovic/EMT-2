@@ -78,4 +78,12 @@ public class UserController {
         userApplicationService.rent(username,placeId);
     }
 
+    @PostMapping("/planToRent")
+    public void planToRent(@RequestParam String username, @RequestParam Long placeId){
+        userApplicationService.planningOn(username,placeId);
+    }
+    @PostMapping("/confirmed")
+    public void confirmed(@RequestParam String username){
+        userApplicationService.confirmPlanning(username);
+    }
 }

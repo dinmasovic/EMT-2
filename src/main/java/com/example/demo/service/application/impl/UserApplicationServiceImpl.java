@@ -49,4 +49,14 @@ public class UserApplicationServiceImpl implements UserApplicationService {
         userService.rent(username, id);
     }
 
+    @Override
+    public void planningOn(String username, Long id) {
+        userService.planningOn(username,id);
+    }
+
+    @Override
+    public void confirmPlanning(String username) {
+        userService.confirmPlanning(username);
+    }
+
 }
