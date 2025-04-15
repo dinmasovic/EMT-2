@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -74,16 +76,25 @@ public class UserController {
         request.getSession().invalidate();
     }
     @PostMapping("/rent")
-    public void rent(@RequestParam String username, @RequestParam Long placeId) {
-        userApplicationService.rent(username,placeId);
+    public void rent(@RequestParam Long placeId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println(username);
+        userApplicationService.rent(username, placeId);
     }
 
+
     @PostMapping("/planToRent")
-    public void planToRent(@RequestParam String username, @RequestParam Long placeId){
-        userApplicationService.planningOn(username,placeId);
+    public void planToRent(@RequestParam Long placeId) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        userApplicationService.planningOn(username, placeId);
+
     }
+
     @PostMapping("/confirmed")
-    public void confirmed(@RequestParam String username){
+    public void confirmed() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         userApplicationService.confirmPlanning(username);
+
     }
+
 }
