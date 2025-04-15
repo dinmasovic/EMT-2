@@ -48,12 +48,10 @@ public class WebSecurityConfig {
                         .frameOptions((frame) -> frame.sameOrigin()) // enables only what you want
                 )
                 .authorizeHttpRequests(requests -> requests.requestMatchers(
-                        "/api/products",
-                        "/api/categories",
-                        "/api/manufacturers",
-                        "/api/user/login",
-                        "/api/user/register"
-                ).permitAll().anyRequest().authenticated())
+                        "/api/user/**"
+                ).hasRole("USER")
+                        .requestMatchers("/place/**").hasRole("HOST")
+                        .anyRequest().authenticated())
                 .formLogin((form) -> form.loginProcessingUrl(
                                 "/api/user/login")
                         .permitAll()
