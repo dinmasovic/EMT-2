@@ -48,10 +48,10 @@ public class WebSecurityConfig {
                         .frameOptions((frame) -> frame.sameOrigin()) // enables only what you want
                 )
                 .authorizeHttpRequests(requests -> requests.requestMatchers(
-                        "/api/user/**"
+                        "/api/user/rent","/api/user/confirmed","/api/user/planToRent"
                 ).hasRole("USER")
                         .requestMatchers("/place/**").hasRole("HOST")
-                        .anyRequest().authenticated())
+                        .anyRequest().permitAll())
                 .formLogin((form) -> form.loginProcessingUrl(
                                 "/api/user/login")
                         .permitAll()
@@ -61,11 +61,12 @@ public class WebSecurityConfig {
                                 true
                         ))
                 .logout((logout) -> logout.logoutUrl("/api/user/logout")
+                        .permitAll()
                         .clearAuthentication(true)
                         .invalidateHttpSession(
                                 true)
                         .deleteCookies("JSESSIONID")
-                        .logoutSuccessUrl("/api/user/login"))
+                        .logoutSuccessUrl("/swagger-ui/index.html"))
                 .exceptionHandling((ex) -> ex.accessDeniedPage(
                         "/access_denied"));
         return http.build();

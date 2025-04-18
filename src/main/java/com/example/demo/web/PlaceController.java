@@ -21,8 +21,8 @@ public class PlaceController {
     public PlaceController(PlaceApplicationService placeService) {
         this.placeService = placeService;
     }
-    @GetMapping
     @Operation(summary = "Get places", description = "Find all places")
+    @GetMapping
     List<DisplayPlaceDto> listAll(){
         return placeService.listAll();
     }

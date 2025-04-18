@@ -56,13 +56,12 @@ public class UserController {
             ), @ApiResponse(responseCode = "404", description = "Invalid username or password")}
     )
     @PostMapping("/login")
-    public ResponseEntity<DisplayUserDto> login(HttpServletRequest request) {
+    public ResponseEntity<DisplayUserDto> login(@RequestParam LoginUserDto loginUserDto) {
         try {
             DisplayUserDto displayUserDto = userApplicationService.login(
-                    new LoginUserDto(request.getParameter("username"), request.getParameter("password"))
+                    new LoginUserDto(loginUserDto.username(), loginUserDto.password())
             ).orElseThrow(InvalidUserCredentialsException::new);
 
-            request.getSession().setAttribute("user", displayUserDto.toUser());
             return ResponseEntity.ok(displayUserDto);
         } catch (InvalidUserCredentialsException e) {
             return ResponseEntity.notFound().build();
@@ -71,7 +70,7 @@ public class UserController {
 
     @Operation(summary = "User logout", description = "Ends the user's session")
     @ApiResponse(responseCode = "200", description = "User logged out successfully")
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public void logout(HttpServletRequest request) {
         request.getSession().invalidate();
     }

@@ -47,7 +47,13 @@ public class DataInitializer {
                 "Masovic",
                 Role.USER
         ));
-
+        userRepository.save(new User(
+                "host",
+                passwordEncoder.encode("host"),
+                "Din",
+                "Masovic",
+                Role.HOST
+        ));
 
     }
 }
