@@ -3,8 +3,8 @@ package com.example.demo.model.enumerations;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    USER,
-    HOST;
+    ROLE_USER,
+    ROLE_HOST;
 
     @Override
     public String getAuthority() {

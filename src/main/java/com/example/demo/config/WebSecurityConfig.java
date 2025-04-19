@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(requests -> requests.requestMatchers(
                         "/api/user/rent","/api/user/confirmed","/api/user/planToRent"
                 ).hasRole("USER")
-                        .requestMatchers("/place/**").hasRole("HOST")
+                        .requestMatchers("/place").hasRole("HOST")
                         .anyRequest().permitAll())
                 .formLogin((form) -> form.loginProcessingUrl(
                                 "/api/user/login")

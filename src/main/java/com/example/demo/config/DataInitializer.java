@@ -45,14 +45,14 @@ public class DataInitializer {
                 passwordEncoder.encode("user"),
                 "Din",
                 "Masovic",
-                Role.USER
+                Role.ROLE_USER
         ));
         userRepository.save(new User(
                 "host",
                 passwordEncoder.encode("host"),
                 "Din",
                 "Masovic",
-                Role.HOST
+                Role.ROLE_HOST
         ));
 
     }
