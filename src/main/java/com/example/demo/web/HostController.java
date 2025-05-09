@@ -3,6 +3,7 @@ package com.example.demo.web;
 import com.example.demo.dto.create.CreateHostDto;
 import com.example.demo.dto.display.DisplayHostDto;
 import com.example.demo.model.domain.Host;
+import com.example.demo.model.projections.HostProjection;
 import com.example.demo.service.application.HostApplicationService;
 import com.example.demo.service.domain.HostService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,8 +18,13 @@ import java.util.Optional;
 @Tag(name = "Host API", description = "Endpoints for managing hosts")
 public class HostController {
     private final HostApplicationService hostService;
+
     public HostController(HostApplicationService hostService) {
         this.hostService = hostService;
+    }
+    @GetMapping("/hostNames")
+    public List<HostProjection> projections(){
+        return hostService.projections();
     }
     @GetMapping
     @Operation(summary = "Get hosts", description = "Find all hosts")

@@ -3,6 +3,7 @@ package com.example.demo.service.application;
 import com.example.demo.dto.create.CreateHostDto;
 import com.example.demo.dto.display.DisplayHostDto;
 import com.example.demo.model.domain.Host;
+import com.example.demo.model.projections.HostProjection;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,4 +14,5 @@ public interface HostApplicationService {
     Optional<DisplayHostDto> save(CreateHostDto host);
     Optional<DisplayHostDto> update(Long id,CreateHostDto host);
     void delete(Long id);
+    List<HostProjection> projections();
 }

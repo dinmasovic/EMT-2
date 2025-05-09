@@ -1,8 +1,10 @@
 package com.example.demo.service.application.impl;
 
+import com.example.demo.dto.LoginResponseDto;
 import com.example.demo.dto.LoginUserDto;
 import com.example.demo.dto.create.CreateUserDto;
 import com.example.demo.dto.display.DisplayUserDto;
+import com.example.demo.helper.JwtHelper;
 import com.example.demo.model.domain.User;
 import com.example.demo.service.application.UserApplicationService;
 import com.example.demo.service.domain.UserService;
@@ -13,9 +15,11 @@ import java.util.Optional;
 @Service
 public class UserApplicationServiceImpl implements UserApplicationService {
     private final UserService userService;
+    private final JwtHelper jwtHelper;
 
-    public UserApplicationServiceImpl(UserService userService) {
+    public UserApplicationServiceImpl(UserService userService, JwtHelper jwtHelper) {
         this.userService = userService;
+        this.jwtHelper = jwtHelper;
     }
 
     @Override
@@ -32,12 +36,17 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     }
 
     @Override
-    public Optional<DisplayUserDto> login(LoginUserDto loginUserDto) {
-        return Optional.of(DisplayUserDto.from(userService.login(
+    public Optional<LoginResponseDto> login(LoginUserDto loginUserDto) {
+        User user = userService.login(
                 loginUserDto.username(),
                 loginUserDto.password()
-        )));
+        );
+
+        String token = jwtHelper.generateToken(user);
+
+        return Optional.of(new LoginResponseDto(token));
     }
+
 
     @Override
     public Optional<DisplayUserDto> findByUsername(String username) {

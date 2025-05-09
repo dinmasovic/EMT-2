@@ -3,6 +3,7 @@ package com.example.demo.service.application.impl;
 import com.example.demo.dto.create.CreateHostDto;
 import com.example.demo.dto.display.DisplayHostDto;
 import com.example.demo.model.domain.Host;
+import com.example.demo.model.projections.HostProjection;
 import com.example.demo.repository.HostRepository;
 import com.example.demo.service.application.HostApplicationService;
 import com.example.demo.service.domain.HostService;
@@ -43,5 +44,10 @@ public class HostApplicationServiceImpl implements HostApplicationService {
     @Override
     public void delete(Long id) {
         hostService.delete(id);
+    }
+
+    @Override
+    public List<HostProjection> projections() {
+        return hostService.projection();
     }
 }

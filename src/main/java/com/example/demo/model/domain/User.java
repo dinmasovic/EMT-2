@@ -28,7 +28,7 @@ public class User implements UserDetails {
 
     private String surname;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Place> rented;
 
     @ManyToMany

@@ -1,5 +1,6 @@
 package com.example.demo.web;
 
+import com.example.demo.dto.LoginResponseDto;
 import com.example.demo.dto.LoginUserDto;
 import com.example.demo.dto.create.CreateUserDto;
 import com.example.demo.dto.display.DisplayUserDto;
@@ -12,9 +13,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,8 +26,12 @@ public class UserController {
 
     private final UserApplicationService userApplicationService;
 
+
+    private BCryptPasswordEncoder passwordEncoder;
     public UserController(UserApplicationService userApplicationService) {
         this.userApplicationService = userApplicationService;
+        passwordEncoder=new BCryptPasswordEncoder(10);
+
     }
 
     @Operation(summary = "Register a new user", description = "Creates a new user account")
@@ -56,14 +62,17 @@ public class UserController {
             ), @ApiResponse(responseCode = "404", description = "Invalid username or password")}
     )
     @PostMapping("/login")
-    public ResponseEntity<DisplayUserDto> login(@RequestParam LoginUserDto loginUserDto) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginUserDto loginUserDto) {
+        System.out.println(loginUserDto.username());
+        System.out.println(loginUserDto.password());
         try {
-            DisplayUserDto displayUserDto = userApplicationService.login(
+            LoginResponseDto displayUserDto = userApplicationService.login(
                     new LoginUserDto(loginUserDto.username(), loginUserDto.password())
             ).orElseThrow(InvalidUserCredentialsException::new);
 
             return ResponseEntity.ok(displayUserDto);
         } catch (InvalidUserCredentialsException e) {
+            System.out.println();
             return ResponseEntity.notFound().build();
         }
     }

@@ -24,14 +24,13 @@ public class CountryController {
     @GetMapping
     @Operation(summary = "Get countries", description = "Find all countries")
     public List<DisplayCountryDto> getCountries() {
-        System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        System.out.println("nema da go ispecati ova");
         return countryService.listAll();
     }
 
     @PostMapping
     @Operation(summary = "Create a country", description = "Create a country")
     public Optional<DisplayCountryDto> createCountry(@RequestBody CreateCountryDto country) {
-        System.out.println(country.toCountry().getId());
         return countryService.save(country);
     }
 
